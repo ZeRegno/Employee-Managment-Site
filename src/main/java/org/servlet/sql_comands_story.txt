@@ -1,0 +1,61 @@
+CREATE TABLE employees (
+                           id SERIAL PRIMARY KEY,                  -- Автоматический инкрементирующий ID
+                           full_name VARCHAR(255) NOT NULL,        -- ФИО сотрудника
+                           address TEXT NOT NULL,                  -- Домашний адрес сотрудника
+                           work_mode VARCHAR(50) NOT NULL,         -- Режим работы (полный рабочий день, удаленная работа и т.д.)
+                           created_at TIMESTAMP DEFAULT NOW(),     -- Время создания записи
+                           UNIQUE (full_name, address, work_mode)  -- Ограничение уникальности на комбинацию ФИО, адрес и режим работы
+);
+
+
+INSERT INTO employees (full_name, address, work_mode)
+VALUES
+    ('Иван Иванов Иванович', 'ул. Ленина, д. 12, кв. 34, г. Москва', 'полный рабочий день'),
+    ('Ольга Петрова Сергеевна', 'ул. Пушкина, д. 20, кв. 45, г. Санкт-Петербург', 'удаленная работа'),
+    ('Сергей Кузнецов Андреевич', 'ул. Кирова, д. 5, кв. 67, г. Новосибирск', 'смешанный режим');
+
+DROP TABLE IF EXISTS employees;
+
+CREATE TABLE employees (
+    id SERIAL PRIMARY KEY,                  -- Автоматический инкрементирующий ID
+    last_name VARCHAR(100) NOT NULL,        -- Фамилия
+    first_name VARCHAR(100) NOT NULL,       -- Имя
+    middle_name VARCHAR(100),               -- Отчество (может быть NULL)
+    address TEXT NOT NULL,                  -- Домашний адрес
+    work_mode VARCHAR(50) NOT NULL,         -- Режим работы
+    created_at TIMESTAMP DEFAULT NOW(),     -- Время создания записи
+    UNIQUE (last_name, first_name, middle_name, address)  -- Уникальность по ФИО и адресу
+);
+INSERT INTO employees (last_name, first_name, middle_name, address, work_mode)
+VALUES
+('Иванов', 'Иван', 'Иванович', 'ул. Ленина, д. 12, кв. 34, г. Москва', 'полный рабочий день'),
+('Петрова', 'Ольга', 'Сергеевна', 'ул. Пушкина, д. 20, кв. 45, г. Санкт-Петербург', 'удаленная работа'),
+('Кузнецов', 'Сергей', 'Андреевич', 'ул. Кирова, д. 5, кв. 67, г. Новосибирск', 'смешанный режим');
+
+\d employees;
+
+
+ALTER TABLE employees
+ADD COLUMN age INT;  -- Тип INT подходит для возраста
+
+UPDATE employees SET age = 35 WHERE last_name = 'Иванов' AND first_name = 'Иван';
+UPDATE employees SET age = 28 WHERE last_name = 'Петрова' AND first_name = 'Ольга';
+UPDATE employees SET age = 30 WHERE last_name = 'Кузнецов' AND first_name = 'Сергей';
+
+INSERT INTO employees (last_name, first_name, middle_name, address, work_mode, age)
+VALUES
+('Иванов', 'Иван', 'Иванович', 'ул. Ленина, д. 12, кв. 34, г. Москва', 'полный рабочий день', 35),
+('Петрова', 'Ольга', 'Сергеевна', 'ул. Пушкина, д. 20, кв. 45, г. Санкт-Петербург', 'удаленная работа', 28),
+('Кузнецов', 'Сергей', 'Андреевич', 'ул. Кирова, д. 5, кв. 67, г. Новосибирск', 'смешанный режим', 30);
+
+CREATE TABLE employees (
+    id SERIAL PRIMARY KEY,                  -- Автоматический инкрементирующий ID
+    last_name VARCHAR(100) NOT NULL,        -- Фамилия
+    first_name VARCHAR(100) NOT NULL,       -- Имя
+    middle_name VARCHAR(100),               -- Отчество (может быть NULL)
+    address TEXT NOT NULL,                  -- Домашний адрес
+    work_mode VARCHAR(50) NOT NULL,         -- Режим работы
+    created_at TIMESTAMP DEFAULT NOW(),     -- Время создания записи
+    age INT,                                -- Возраст
+    UNIQUE (last_name, first_name, middle_name, address)  -- Уникальность по ФИО и адресу
+);
